@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "bidtacktoe",
+      "public": "dist/bidtacktoe",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

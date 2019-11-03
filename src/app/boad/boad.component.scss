@@ -1,0 +1,30 @@
+main {
+    position: relative;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    // grid-template-rows: auto auto 1fr 1fr 1fr auto auto;
+    grid-gap:0px;
+    height: 50vh;
+    width: 50vh;
+    // display: grid;
+    // grid-template-columns: minmax(30%, 200px) minmax(30%, 200px) minmax(30%, 200px);
+    // grid-gap: 0px;
+}
+  
+app-square {
+    border: 1px gray solid;
+    // height: 100%;
+}
+
+nb-card {
+    margin: 7px;
+    position: relative;
+
+}
+
+mv-rgt {
+ position: absolute;
+ top: 100%;
+ right: 0;
+
+}

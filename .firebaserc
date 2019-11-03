@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "bittactoe-a8455": {
+      "hosting": {
+        "bidtacktoe": [
+          "bittactoe-a8455"
+        ]
+      }
+    }
+  }
+}

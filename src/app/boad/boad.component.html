@@ -1,0 +1,38 @@
+
+<!-- <h1>Current Player: {{ player }} </h1> -->
+
+<div >
+<button nbButton outline status="danger" (click)="newGame()">Start new Game</button> 
+<!-- <h2 class="mv-rgt" *ngIf="winner">
+    
+        Player {{ winner }} won the game!
+    </h2> -->
+</div>
+<div >
+<nb-card *ngIf="!winner">
+        <nb-card-body class="example-items-rows">
+          <label>Your's: {{usersMaxValue}}</label> <input type="number"  id="myNum"  nbInput required max="100" value="{{ userBidValue }}" (keyup.enter)="sendDataToUser($event.target)">
+        </nb-card-body>
+        <nb-card-body>
+                <label>Bot's: {{ botsMaxValue }}</label> <input type="number" max="100" value="{{ botBidValue }}" nbInput  disabled>
+        </nb-card-body>
+        
+        <nb-card-footer > 
+            <nb-alert status="{{ statusValue }}" closable (close)="onClose()" *ngIf="bidMessage">{{ bidMessage }}</nb-alert>
+            <!-- <nb-alert status="" closable (close)="onClose()" *ngIf="bidMessage != null">{{ bidMessage }}</nb-alert> -->
+        </nb-card-footer>
+</nb-card>
+</div>
+<!-- <h2 class="mv-rgt">
+        <br />
+</h2> -->
+<div >
+<main>
+    <app-square 
+        *ngFor="let val of squares; let i = index" 
+        [value]="val"
+        (click)="makeMove(i)"> 
+
+    </app-square>
+</main>
+</div>
