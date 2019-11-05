@@ -1,12 +1,14 @@
 <nb-layout>
 
   <nb-layout-header fixed>
+    Welcome to Bid-Tac-Toe
   <!-- Insert header here -->
   </nb-layout-header>
 
   <nb-layout-column>
 
-    <app-boad></app-boad>
+    <firebase-ui *ngIf="!afAuth.auth.currentUser"></firebase-ui>
+    <app-boad *ngIf="afAuth.auth.currentUser"></app-boad>
     
     <router-outlet></router-outlet>
   </nb-layout-column>
