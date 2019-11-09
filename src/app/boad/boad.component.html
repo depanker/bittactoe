@@ -22,6 +22,9 @@
             <!-- <nb-alert status="" closable (close)="onClose()" *ngIf="bidMessage != null">{{ bidMessage }}</nb-alert> -->
         </nb-card-footer>
 </nb-card>
+<nb-card *ngIf="winner">
+        <nb-alert status="{{ statusValue }}" closable (close)="onClose()" *ngIf="bidMessage">{{ bidMessage }}</nb-alert>
+</nb-card>
 </div>
 <!-- <h2 class="mv-rgt">
         <br />

@@ -16,7 +16,7 @@ export class BoadComponent implements OnInit {
 
   apiURL = 'http://www.server.com/api/';
   squares: any[];
-  xIsNext: boolean;
+  // xIsNext: boolean;
   winner: string;
   usersMaxValue: number;
   botsMaxValue: number;
@@ -28,6 +28,7 @@ export class BoadComponent implements OnInit {
   botBidValue: number = null;
   statusValue: string = null;
   userBidValue: number = null;
+  moveInProgress = false;
 
   // constructor(private httpClient: HttpClient) {}
   constructor() {}
@@ -43,16 +44,23 @@ export class BoadComponent implements OnInit {
   newGame() {
     this.squares = Array(9).fill(null);
     this.winner =  null;
-    this.xIsNext = true;
+    // this.xIsNext = true;
     this.usersMaxValue = 100;
     this.botsMaxValue = 100;
+    this.botBidValue =  0;
+    this.userBidValue = 0;
     this.pauseAllInputs = true;
     this.gameIsOn =  true;
+    this.bidMessage = null;
+      this.statusValue = null;
   }
   onClose() {
-    this.bidMessage = null
+    this.bidMessage = null;
   }
   sendDataToUser(usersBid: any) {
+    if (this.winner != null || this.moveInProgress) {
+      return;
+    }
     this.bidMessage = null;
     const bidValue =  +usersBid.value;
     this.userBidValue = bidValue;
@@ -64,15 +72,19 @@ export class BoadComponent implements OnInit {
     }
     this.botBidValue = this.getBotBid();
     if (bidValue >  this.botBidValue) {
-      this.statusValue = 'info';
-      this.bidMessage = 'You won the bid, make a move.';
-      this.xIsNext = true;
       this.pauseAllInputs = false;
+      this.statusValue = 'info';
+      this.bidMessage = 'You won the bid, make a move. (You: ' + bidValue + ',  Bot: ' + this.botBidValue + ').';
+      this.botsMaxValue += bidValue;
+      this.usersMaxValue -= bidValue;
+      this.moveInProgress = true;
     } else if (bidValue <  this.botBidValue) {
-      this.statusValue = 'danger';
-      this.bidMessage = 'Sorry you did not win.';
+      this.statusValue = 'warning';
+      this.bidMessage = 'Sorry you did not win the bid, (You: ' + bidValue + ',  Bot: ' + this.botBidValue + ').';
+      this.botsMaxValue -= this.botBidValue;
+      this.usersMaxValue += this.botBidValue;
+      this.makeBotsmove();
     }
-    this.xIsNext = true;
   }
   // Get bid bot
   getBotBid() {
@@ -95,30 +107,9 @@ export class BoadComponent implements OnInit {
   /**
    * Get the current player
    */
-  get player() {
-    return this.xIsNext ? 'X' : 'O';
-  }
-
-  /**
-   * If current move had
-   * been made do not make
-   * any move
-   */
-makeMove(idx: number) {
-    if (this.pauseAllInputs) {
-      return;
-    }
-
-    if (!this.squares[idx]) {
-      this.squares.splice(idx, 1, this.player);
-      this.xIsNext = !this.xIsNext;
-    }
-
-    this.winner = this.calculateWinner();
-    this.pauseAllInputs = true;
-    this.bidMessage = null;
-    this.statusValue = null;
-  }
+  // get player() {
+  //   return this.xIsNext ? 'X' : 'O';
+  // }
 
   calculateWinner() {
     const lines = [
@@ -141,9 +132,73 @@ makeMove(idx: number) {
         return this.squares[a];
       }
     }
+    if (this.usersMaxValue <= 0) {
+      return 'O';
+    }
+    if (this.botsMaxValue <= 0) {
+      return 'X';
+    }
     return null;
   }
-  // setNextPlayer() {
-  // }
+  /**
+   * If current move had
+   * been made do not make
+   * any move
+   */
+  makeMove(idx: number) {
+    if (this.pauseAllInputs) {
+      return;
+    }
+    this.moveHelper(idx, 'X');
+    this.pauseAllInputs = true;
+    this.moveInProgress  = false;
+  }
+  /**
+   * This function will make move for
+   * bot based on a simple lookup
+   * not the most subhesicated
+   * way but should work for now
+   * todo Need to add a better functionality.
+   */
+  makeBotsmove() {
+    // let idx
+    let avaliableMoves: Array<number> = [];
+    for (let i = 0; i < this.squares.length; i++) {
+      if (!this.squares[i]) {
+        avaliableMoves.push(i);
+      }
+    }
+    if (avaliableMoves.length > 0) {
+      const tmp = Math.floor(Math.random() * (avaliableMoves.length) );
+      this.moveHelper(avaliableMoves[tmp], 'O');
+    }
+  }
+
+  moveHelper(idx: number, player: string) {
+      if (!this.squares[idx]) {
+        this.squares.splice(idx, 1, player);
+      }
+      this.winner = this.calculateWinner();
+      this.setWinnerMessage();
+      this.userBidValue = 0;
+      this.botBidValue = 0;
+      // this.bidMessage = null;
+      // this.statusValue = null;
+  }
+
+  setWinnerMessage() {
+    if (this.winner === 'X') {
+      this.bidMessage = 'Conguralations you won!';
+      this.statusValue = 'success';
+      return;
+    }
+
+    if (this.winner === 'O') {
+      this.bidMessage = 'Sorry you lost, better luck next time.';
+      this.statusValue = 'danger';
+      return;
+    }
+
+  }
 
 }
