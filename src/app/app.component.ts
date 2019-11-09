@@ -8,5 +8,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 })
 export class AppComponent {
   title = 'bidtacktoe';
-  constructor(public afAuth: AngularFireAuth) {}
+  constructor(public afAuth: AngularFireAuth) {
+    console.log(afAuth);
+  }
 }

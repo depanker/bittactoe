@@ -1,9 +1,14 @@
 <nb-layout>
 
-  <nb-layout-header fixed>
-    Welcome to Bid-Tac-Toe
+  <nb-layout-header fixed *ngIf="!afAuth.auth.currentUser">
+     Welcome to Bid-Tac-Toe 
   <!-- Insert header here -->
   </nb-layout-header>
+  <nb-layout-header fixed *ngIf="afAuth.auth.currentUser">
+      Welcome to Bid-Tac-Toe {{ afAuth.auth.currentUser.displayName }}
+   <!-- Insert header here -->
+   </nb-layout-header>
+ 
 
   <nb-layout-column>
 

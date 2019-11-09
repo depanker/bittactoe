@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "bid-tac-toe": {
+      "hosting": {
+        "bidtacktoe": [
+          "bid-tac-toe"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "bid-tac-toe"
+  }
+}
