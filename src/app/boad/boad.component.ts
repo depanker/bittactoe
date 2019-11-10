@@ -58,6 +58,8 @@ export class BoadComponent implements OnInit {
     this.bidMessage = null;
   }
   sendDataToUser(usersBid: any) {
+    // console.log(usersBid);
+    usersBid.blur();
     if (this.winner != null || this.moveInProgress) {
       return;
     }
@@ -84,6 +86,11 @@ export class BoadComponent implements OnInit {
       this.botsMaxValue -= this.botBidValue;
       this.usersMaxValue += this.botBidValue;
       this.makeBotsmove();
+    } else {
+      this.statusValue = 'warning';
+      this.bidMessage = 'No one bid please bid again, (You: ' + bidValue + ',  Bot: ' + this.botBidValue + ').';
+      this.userBidValue = 0;
+      this.botBidValue = 0;
     }
   }
   // Get bid bot
@@ -162,7 +169,7 @@ export class BoadComponent implements OnInit {
    */
   makeBotsmove() {
     // let idx
-    let avaliableMoves: Array<number> = [];
+    const avaliableMoves: Array<number> = [];
     for (let i = 0; i < this.squares.length; i++) {
       if (!this.squares[i]) {
         avaliableMoves.push(i);
