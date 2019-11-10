@@ -4,6 +4,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 // import { HttpClient } from '@angular/common/http';
 import { ElementRef } from '@angular/core';
 import { BidRequest } from '../bidrequest';
+import { Angulartics2 } from 'angulartics2';
+
 @Component({
   selector: 'app-boad',
   templateUrl: './boad.component.html',
@@ -31,7 +33,12 @@ export class BoadComponent implements OnInit {
   moveInProgress = false;
 
   // constructor(private httpClient: HttpClient) {}
-  constructor() {}
+  constructor(private angulartics2: Angulartics2) {
+    this.angulartics2.eventTrack.next({
+      action: 'FirstView',
+      properties: { category: 'openGame' },
+    });
+  }
 
 
   ngOnInit() {
@@ -52,7 +59,7 @@ export class BoadComponent implements OnInit {
     this.pauseAllInputs = true;
     this.gameIsOn =  true;
     this.bidMessage = null;
-      this.statusValue = null;
+    this.statusValue = null;
   }
   onClose() {
     this.bidMessage = null;
@@ -80,17 +87,29 @@ export class BoadComponent implements OnInit {
       this.botsMaxValue += bidValue;
       this.usersMaxValue -= bidValue;
       this.moveInProgress = true;
+      this.angulartics2.eventTrack.next({
+        action: 'BidWon',
+        properties: { category: 'playing', label: bidValue + '-' + this.botBidValue  },
+      });
     } else if (bidValue <  this.botBidValue) {
       this.statusValue = 'warning';
       this.bidMessage = 'Sorry you did not win the bid, (You: ' + bidValue + ',  Bot: ' + this.botBidValue + ').';
       this.botsMaxValue -= this.botBidValue;
       this.usersMaxValue += this.botBidValue;
       this.makeBotsmove();
+      this.angulartics2.eventTrack.next({
+        action: 'BidLost',
+        properties: { category: 'playing', label: bidValue + '-' + this.botBidValue  },
+      });
     } else {
       this.statusValue = 'warning';
       this.bidMessage = 'No one bid please bid again, (You: ' + bidValue + ',  Bot: ' + this.botBidValue + ').';
       this.userBidValue = 0;
       this.botBidValue = 0;
+      this.angulartics2.eventTrack.next({
+        action: 'BidDraw',
+        properties: { category: 'playing', label: bidValue + '-' + this.botBidValue  },
+      });
     }
   }
   // Get bid bot
@@ -195,12 +214,20 @@ export class BoadComponent implements OnInit {
 
   setWinnerMessage() {
     if (this.winner === 'X') {
+      this.angulartics2.eventTrack.next({
+        action: 'GameWon',
+        properties: { category: 'playing' },
+      });
       this.bidMessage = 'Conguralations you won!';
       this.statusValue = 'success';
       return;
     }
 
     if (this.winner === 'O') {
+      this.angulartics2.eventTrack.next({
+        action: 'GameLost',
+        properties: { category: 'playing' },
+      });
       this.bidMessage = 'Sorry you lost, better luck next time.';
       this.statusValue = 'danger';
       return;
