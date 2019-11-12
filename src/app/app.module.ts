@@ -29,6 +29,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 
+import * as fbase from 'firebase/app';
+firebase.initializeApp(environment.firebaseConfig);
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
