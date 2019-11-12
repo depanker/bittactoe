@@ -8,7 +8,7 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'bidtacktoe';
+  title = 'Bid-tac-toe';
   constructor(public afAuth: AngularFireAuth, angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics) {
     angulartics2GoogleAnalytics.startTracking();
     console.log(afAuth);
