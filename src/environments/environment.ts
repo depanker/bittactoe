@@ -5,14 +5,14 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    apiKey: 'AIzaSyAMWR2U1urKXnFbgHov7jUk_8C5Co1Bl9A',
+     apiKey: '<API-Key>',
     authDomain: 'bid-tac-toe.firebaseapp.com',
     databaseURL: 'https://bid-tac-toe.firebaseio.com',
     projectId: 'bid-tac-toe',
     storageBucket: 'bid-tac-toe.appspot.com',
-    messagingSenderId: '211278734748',
-    appId: '1:211278734748:web:fdfacb324246c7aef89459',
-    measurementId: 'G-D1N4VTEVG9'
+    messagingSenderId: '<SENDER-ID>',
+    appId: '<AppID>',
+    measurementId: 'G-<SOME-Id>'
   }
 };
 
