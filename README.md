@@ -1,7 +1,10 @@
 # Bidtacktoe
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.17.
-
+[Bidtacktoe](https://bid-tac-toe.web.app/) is a vaiation to tick-tac-toe, except in this variation you would play against program, both you and computer. Both the players will get 100 game credits.
+You would make a bid for a move and so will the program. If you make a higher bid your credits will get deducted and credited to the other player (program).
+Then you get to make a move. A player will win if he makes a winning move or other player looses all his credits and cannot bid further.
+This app is created for learning angularjs
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
